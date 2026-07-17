@@ -23,7 +23,7 @@ class DataLoader:
             model_name=embed_model_name,
             cache_dir="./model_cache",
         )
-        # breakpoint()
+        breakpoint()
         logger.info(f"Loaded embedding model {embed_model_name}")
 
     def load_data(self):

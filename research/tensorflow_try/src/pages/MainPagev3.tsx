@@ -7,7 +7,10 @@ import ColdStart from "../components/ColdStart";
 import ActiveLearning from "../components/ActiveLearning";
 import UserLabeledData from "../components/UserLabeledData";
 import DownloadDatasetButton from "../components/DownloadDatasetButton";
-
+import PredictionViewer from "../components/PredictionViewer";
+import ConfigurePanel from "../components/Configuration";
+import SignInComponent from "../components/SignInComponent";
+import DataRefDebugger from "../components/DebugDataset"
 // Core Type Schemas
 export type ClassLabel = string;
 export type ClassLabelIndex = number;
@@ -49,6 +52,7 @@ export default function MainPage() {
   const fullDatasetRef = useRef<DataRow[]>([]);
   // Only the items labeled by the user drive reactive UI modifications
   const [userLabeledDataset, setUserLabeledDataset] = useState<DataRow[]>([]);
+  const [modelUpdateCount, setModelUpdateCount] = useState<number>(0);
 
   // Handle CSV Processing and Dynamic Streaming Ingestion
   const handleCSVUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -122,41 +126,44 @@ export default function MainPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 p-8 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-800 px-8 pt-4 font-sans">
       {/* Header Block */}
-      <div className="max-w-7xl mx-auto mb-8 border-b border-slate-200 pb-6">
-        <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
-          QuickLabel
-        </h1>
-        <p className="text-sm text-slate-500 mt-1 max-w-2xl">
-          Want to quickly label a large dataset? Try out active learning to
-          reduce the number of examples you need to provide.
-        </p>
+      <div className="max-w-7xl mx-auto mb-8 border-b border-slate-200 pb-4">
+        {/* Flex container to push title left and button right */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+              QuickLabel
+            </h1>
+            <p className="text-sm text-slate-500 mt-1 max-w-2xl">
+              Label a large dataset using few examples.
+            </p>
+          </div>
+          
+          {/* Your Sign In Button Component */}
+          <SignInComponent />
+        </div>
       </div>
+      {/* <DataRefDebugger 
+        datasetRef={fullDatasetRef}
+      /> */}
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-2">
         {/* LEFT & RIGHT COLUMNS CONTROLLER ROW */}
-        <div className="lg:col-span-2 space-y-8">
+        {/* <div className="lg:col-span-1 space-y-2"> */}
           {/* Top Panel: File Upload and Configuration Selector Side-by-Side */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
-            <FileUploadStatus
-              phase={phase}
-              handleCSVUpload={handleCSVUpload}
-              setEmbeddingStatus={setEmbeddingStatus}
-              embeddingStatus={embeddingStatus}
-              streamProgress={streamProgress}
-            />
-            <ConfigurationSelector
-              numClasses={numClasses}
+          <div className="grid grid-cols-1 gap-6 bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <ConfigurePanel 
               classLabels={classLabels}
+              embeddingStatus={embeddingStatus}
+              handleCSVUpload={handleCSVUpload}
+              phase={phase}
+              numClasses={numClasses}
               updateClassCount={updateClassCount}
               updateLabelName={updateLabelName}
-              phase={phase}
+              streamProgress={streamProgress}
             />
-            <DownloadDatasetButton 
-            fullDatasetRef={fullDatasetRef}
-            classLabels={classLabels}
-            />
+            
           </div>
 
           {/* MAIN CENTER ELEMENT: COLD-START OR ACTIVE-LEARNING AREA */}
@@ -184,18 +191,29 @@ export default function MainPage() {
               fullDatasetRef={fullDatasetRef}
               userLabeledDataset={userLabeledDataset}
               classLabels={classLabels}
+              modelUpdateCount={modelUpdateCount}
+              setModelUpdateCount={setModelUpdateCount}
               setPhase={setPhase}
               handleAssignLabel={handleAssignLabel}
             />}
           </div>
+        {/* </div> */}
+        <div>
+        <PredictionViewer 
+          fullDatasetRef={fullDatasetRef}
+          modelUpdateCount={modelUpdateCount}
+          classLabels={classLabels}
+        />
         </div>
-
+        <div className="lg:col-span-3">
         {/* RIGHT COLUMN: CREATED DATASET / USER LABELED LIST VIEW */}
         <UserLabeledData
           userLabeledDataset={userLabeledDataset}
           classLabels={classLabels}
           handleAssignLabel={handleAssignLabel}
         />
+
+        </div>
       </div>
     </div>
   );

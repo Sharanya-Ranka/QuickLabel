@@ -20,7 +20,7 @@ export default function ColdStartFromUserItems({
 
   useEffect(() => {
       const filteredSearchItems = fullDatasetRef.current?.filter((row) => row.text.toLowerCase().includes(searchQuery.toLowerCase()) && !row.isUserLabeled) || [];
-      setFilteredSearchItems(filteredSearchItems);
+      setFilteredSearchItems(filteredSearchItems.slice(0, 5));
   }, [searchQuery, numItemsLabeled]);
 
   return (

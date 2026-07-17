@@ -21,7 +21,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-BATCH_SIZE = 1024  # Low batch size to make progress updates visible
+BATCH_SIZE = 128  # Low batch size to make progress updates visible
 
 
 # Define the data shape expected in the request body using Pydantic

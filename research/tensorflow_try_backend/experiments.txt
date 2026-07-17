@@ -1,0 +1,5 @@
+Modal config    Time for 3000 text items
+2 X (0.125 cpu, 1024 MB)    22 seconds
+2 X (0.25 cpu, 2048 MB)     18 seconds
+4 X (0.125 cpu, 1024 MB)    18 seconds
+4 X (0.25 cpu, 1024 MB)     18
