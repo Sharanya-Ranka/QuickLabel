@@ -5,7 +5,9 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel
-from embed import embed_batch  # Import the embedding function from embed.py
+from research.tensorflow_try_backend.src.embed import (
+    embed_batch,
+)  # Import the embedding function from embed.py
 import time
 
 app = FastAPI()
