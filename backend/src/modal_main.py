@@ -84,7 +84,7 @@ def embed_stream(
     batches = (
         items.items[i : i + BATCH_SIZE] for i in range(0, len(items.items), BATCH_SIZE)
     )
-    # print(user_info)
+    print(user_info)
     # print(f"Created batches")
 
     # print(type(batches))

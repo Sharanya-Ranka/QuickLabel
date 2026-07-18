@@ -1,0 +1,30 @@
+Quality improvements
+Active learning label pills - Try to make sure these don't move around from item to item. This will help users label more quickly
+Export Dataset (center), Model predictions - Make active only after 1st model trained. (DONE)
+Allow users to change number of target classes after uploading the document (until they start with the Active Learning Phase - since before this we need to ensure we have atleast 1 item per class) (DONE)
+Labeled dataset viewer - Limit number of items.. Perhaps show several per row (DONE)
+Labeled Dataset viewer (Modifying this should ideally change the active learning items simultaneously)
+If embedding requests get rejected, MENTION why it got rejected (Authorization, Quota met etc) (DONE)
+Sign In button - Mention explicitly Google SignIn
+Enlarge prediction viewer "refresh random" button (DONE)
+Native dark mode?
+Add "most uncertain" to Prediction viewer 
+Have a way to refresh the entire thing (if previous file exists - Alert - Do you want to start anew?) (DONE)
+Export model weights in excel file? More sohisticated users could find this useful
+Prevent user from advancing to "Active Learning" until atleast a few examples have received embeddings
+How will this look on a mobile screen (low priority since we expect users to upload csv files)
+? with help for each section
+Check how the UI looks with the maximum number of classes. (Set a maximum!)
+
+
+Overarching
+Do we need a ColdStart phase? We can randomly initialize models and have them predict. This will lead to greater flexibility (and perhaps more flexibility in choosing number of classes too)
+
+New features
+Remove cold start, Randomly initialize models and begin (how would you handle if you have a single labeled example? Where does the decision boundary lie? Does tensorflow handle this natively? If datasets are imbalanced, you'll not find "uncertain items" to ask the user to label.)... On second thought, perhaps keep the cold start.
+App routes - How does the app work? Link back to GIthub where you have more research
+
+
+Backend
+Return binary data (JSON data is too inefficient)
+Figure out what you want to configure using env variables

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import type { DataRow } from "../pages/MainPagev3";
+import type { DataRow } from "../types";
 
 interface ColdStartFromUserItemsProps {
   fullDatasetRef: React.RefObject<DataRow[]>;
@@ -19,8 +19,8 @@ export default function ColdStartFromUserItems({
     const [numItemsLabeled, setNumItemsLabeled] = useState<number>(0);
 
   useEffect(() => {
-      const filteredSearchItems = fullDatasetRef.current?.filter((row) => row.text.toLowerCase().includes(searchQuery.toLowerCase()) && !row.isUserLabeled) || [];
-      setFilteredSearchItems(filteredSearchItems.slice(0, 5));
+      const filteredSearchItems = fullDatasetRef.current?.filter((row) => row.text.toLowerCase().includes(searchQuery.toLowerCase())) || [];
+      setFilteredSearchItems(filteredSearchItems.slice(0, 100));
   }, [searchQuery, numItemsLabeled]);
 
   return (
@@ -33,30 +33,27 @@ export default function ColdStartFromUserItems({
         className="w-full text-sm px-3 py-2 border border-slate-300 rounded-lg focus:outline-indigo-500"
       />
 
-      <div className="space-y-2">
-        {filteredSearchItems.map((row) => (
+      <div className="space-y-2 max-h-[200px] overflow-y-auto">
+        {filteredSearchItems.length <= 0 ? <div> No items match the search</div>:
+        filteredSearchItems.map((row) => (
           <div
             key={row.id}
-            className="p-3 bg-slate-50 rounded border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+            className="p-1 bg-slate-50 rounded border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
           >
             <span className="text-xs font-mono text-slate-700 max-w-md truncate">
               {row.text}
             </span>
-            <div className="flex gap-1.5">
-              {classLabels.map((label, label_index) => (
-                <button
-                  key={label}
-                  onClick={() => {
-                    handleAssignLabel(row.id, label_index);
-                    setNumItemsLabeled((prev) => prev + 1);
-                    // setSearchQuery("");
-                  }}
-                  className="px-2 py-1 bg-white border border-slate-200 text-[11px] rounded font-medium hover:border-indigo-500"
+            <select
+                  value={row.userLabelIndex}
+                  onChange={(e) => handleAssignLabel(row.id, parseInt(e.target.value))}
+                  className="text-[11px] border border-slate-200 bg-white rounded px-1.5 py-0.5 font-medium text-slate-600"
                 >
-                  {label}
-                </button>
-              ))}
-            </div>
+                  {classLabels.map((l, index) => (
+                    <option key={l} value={index}>
+                      {l}
+                    </option>
+                  ))}
+                </select>
           </div>
         ))}
       </div>

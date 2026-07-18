@@ -1,30 +1,28 @@
 // types.ts
-
 export type ClassLabel = string;
+export type ClassLabelIndex = number;
 
 export interface DataRow {
-  id: string; // Unique identifier (e.g., row index or UUID)
-  text: string; // The raw text to embed
-  embedding?: number[]; // Populated by Web Worker
-  
-  // Labeling State
-  userLabel?: ClassLabel; // Null if not yet labeled by user
+  id: string;
+  text: string;
+  embedding?: number[];
+  userLabel?: ClassLabel; // TODO: To remove
+  userLabelIndex?: ClassLabelIndex;
   isUserLabeled: boolean;
-  
-  // Model Predictions (Updated every round)
-  predictedClass?: ClassLabel;
-  predictionProbabilities?: Record<ClassLabel, number>;
-  marginUncertainty?: number; // Lower is more uncertain
+  predictedLabelIndex?: ClassLabelIndex;
+  probabilities?: number[];
+  marginUncertainty?: number;
 }
 
-export interface AppState {
-  status: 'UPLOAD' | 'EMBEDDING' | 'COLD_START' | 'ACTIVE_LEARNING' | 'DASHBOARD';
-  config: {
-    textColumn: string;
-    classes: ClassLabel[];
-    numUncertain: number;
-    hybridRandomRatio: number;
-  };
-  dataset: DataRow[];
-  currentBatch: string[]; // Array of row IDs for the current labeling round
+
+
+export interface EmbeddingRequest {
+  items: {items: {id:string, text: string}[]}
+  items_info: {num_items: number}
 }
+
+
+
+export type AppPhase = "CONFIG" | "COLD_START" | "ACTIVE_LEARNING";
+
+export type EmbeddingStatus = "IDLE" | "EMBEDDING" | "COMPLETE";

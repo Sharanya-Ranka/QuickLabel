@@ -11,7 +11,7 @@ from fastapi import FastAPI
 
 DB_DIR = "/data"
 DB_PATH = os.path.join(DB_DIR, "quotas.db")
-DAILY_MAX_EMBEDDINGS = 50000  # Cap limits
+DAILY_MAX_EMBEDDINGS = 20_000  # Cap limits
 
 # Secure Bearer token extraction hook
 security_scheme = HTTPBearer()

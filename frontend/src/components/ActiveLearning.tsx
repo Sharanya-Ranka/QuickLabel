@@ -1,8 +1,9 @@
 import { TrainAndGatherUncertain } from '../scripts/trainAndGatherUncertain';
 import type { Datapoint } from '../scripts/trainAndGatherUncertain';
 import React, { useState, useEffect } from "react";
-import type { DataRow } from "../pages/MainPagev3";
+import type { DataRow } from "../types";
 import { PredictionItem } from './PredictionItem';
+import { InfoTooltip } from "./InfoToolTip";
 import { full } from '@huggingface/transformers';
 
 interface ActiveLearningProps {
@@ -36,13 +37,15 @@ export default function ActiveLearning({
   // Track the specific subset of row IDs targeted for user inspection during the active round
   const [activeQueue, setActiveQueue] = useState<DataRow[]>([]);
   const [lenFullDataset, setLengthFullDataset] = useState<number>(0);
+  const [updateModel, setUpdateModel] = useState<boolean>(true);
 
   const handleItemLabeled = (rowId: string, labelIndex: number) => {
     handleAssignLabel(rowId, labelIndex);
     setActiveQueue(prev => prev.filter(row => row.id !== rowId));
 
-    if (activeQueue.length === 1) {
-      setModelUpdateCount(prev => prev + 1);
+    // the above setActiveQueue will change the state AFTER this, so we need to check if the length is 1 not 0
+    if (activeQueue.length <= 1) {
+      setUpdateModel(true);
     }
   };
 
@@ -89,16 +92,19 @@ export default function ActiveLearning({
         const targetIds = output.predictions.slice(0, NUM_UNCERTAIN).map(p => p.id);
         const activeQueue = dataset.filter(row => targetIds.includes(row.id));
         setActiveQueue(activeQueue);
+        setModelUpdateCount(prev => prev + 1)
 
       } catch (err) {
         console.error("Error executing active learning iteration math:", err);
       } finally {
         setIsTraining(false);
+        setUpdateModel(false);
       }
     }
-
-    runActiveLearningIteration();
-  }, [modelUpdateCount]);
+    if(updateModel === true){
+      runActiveLearningIteration();
+    }
+  }, [updateModel]);
   
   const currentActiveItem : DataRow|null = activeQueue.length > 0 ? activeQueue[0] : null;
 
@@ -106,11 +112,22 @@ export default function ActiveLearning({
     <div className="space-y-6">
       <div className="flex justify-between items-center border-b border-slate-100 pb-3">
         <div>
+          <div className="flex flex-row">
           <h2 className="text-md font-bold text-slate-900 text-indigo-600">
-            Active Learning (Labeled {userLabeledDataset.length}/{lenFullDataset} ({userLabeledDataset.length*100/lenFullDataset} %))
+            Active Learning 
           </h2>
+          <InfoTooltip
+            content="Provide a label for each prompted example to teach the model how to classify uncertain items"
+            side='right'
+          />
+
+          </div>
+
+          {/* <p className="text-xs text-slate-400 mt-0.5">
+            {modelUpdateCount >= 5 ? "Complete" : `Iteration ${modelUpdateCount + 1} of 5`}
+          </p> */}
           <p className="text-xs text-slate-400 mt-0.5">
-            Loop Status: {modelUpdateCount >= 5 ? "Complete" : `Iteration ${modelUpdateCount + 1} of 5`}
+          Labeled {userLabeledDataset.length}/{lenFullDataset} ({userLabeledDataset.length*100/lenFullDataset}%)
           </p>
         </div>
       </div>

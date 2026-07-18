@@ -1,4 +1,4 @@
-import type {EmbeddingStatus} from "../pages/MainPagev3";
+import type {EmbeddingStatus} from "../pages/MainPage";
 
 interface FileUploadProps{
   phase: string;

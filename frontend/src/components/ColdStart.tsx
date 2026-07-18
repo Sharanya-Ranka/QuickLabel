@@ -1,7 +1,8 @@
 import React, { useMemo, useState } from "react";
-import type { DataRow } from "../pages/MainPagev3";
+import type { DataRow } from "../types";
 import ColdStartFromRandomItems from "./ColdStartFromRandomItems";
 import ColdStartFromUserItems from "./ColdStartFromUserItems";
+import { InfoTooltip } from "./InfoToolTip";
 
 interface ColdStartProps {
   fullDatasetRef: React.RefObject<DataRow[]>;
@@ -46,8 +47,12 @@ export default function ColdStart({
     <div>
       <div className="flex justify-between items-center border-b border-slate-100 pb-4 mb-4">
         <h2 className="text-md font-bold text-slate-900">
-          Cold-Start Baseline gathering
+          Cold-Start
         </h2>
+        <InfoTooltip 
+          content="Seed the model with data before we start Active Learning. Provide atleast 1 example per class. You may label items randomly 'Random Items', or search for them in 'User Search'" 
+          side="right"
+        />
         <div className="flex bg-slate-100 p-1 rounded-lg text-xs font-medium">
           <button
             onClick={() => setColdStartMode("RANDOM")}
@@ -83,7 +88,7 @@ export default function ColdStart({
       )}
 
       {/* Transition Unlock Validation Check */}
-      <div className="mt-6 pt-4 border-t border-slate-100 flex items-center justify-between">
+      <div className="mt-6 gap-3 border-t border-slate-100 flex flex-col items-center justify-between">
         <div className="flex gap-2 text-xs">
           {classLabels.map((label) => {
             const count = userLabeledDataset.filter(

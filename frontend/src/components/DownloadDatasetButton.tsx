@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
-import type { DataRow } from '../pages/MainPagev3';
+import type { DataRow } from '../pages/MainPage';
 
 interface DownloadDatasetButtonProps {
   fullDatasetRef: React.RefObject<DataRow[] | null>;
   classLabels: string[];
+  isActive: boolean
 }
 
-export default function DownloadDatasetButton({ fullDatasetRef, classLabels }: DownloadDatasetButtonProps) {
+export default function DownloadDatasetButton({ fullDatasetRef, classLabels, isActive }: DownloadDatasetButtonProps) {
   const [isExporting, setIsExporting] = useState(false);
 
   const handleExportExcel = async () => {
@@ -125,7 +126,7 @@ export default function DownloadDatasetButton({ fullDatasetRef, classLabels }: D
   return (
     <button
       onClick={handleExportExcel}
-      disabled={isExporting}
+      disabled={isExporting || !isActive}
       className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-lg shadow-sm transition-colors disabled:bg-slate-200 disabled:text-slate-400"
     >
       {isExporting ? (

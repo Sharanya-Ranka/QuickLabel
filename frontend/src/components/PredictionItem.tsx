@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
-import type { DataRow } from "../pages/MainPagev3";
+import type { DataRow } from "../pages/MainPage";
 
 // =========================================================
 // ATOMIC SUB-COMPONENT: ROW ENTRY VISUALIZER CARD

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import type { DataRow } from "../pages/MainPagev3";
+import type { DataRow } from "../pages/MainPage";
 
 interface ColdStartFromRandomItemsProps {
   fullDatasetRef: React.RefObject<DataRow[]>;

@@ -12,6 +12,7 @@
   "dependencies": {
     "@aws-amplify/ui-react": "^6.15.4",
     "@huggingface/transformers": "^4.2.0",
+    "@radix-ui/react-popover": "^1.1.19",
     "@tailwindcss/vite": "^4.3.2",
     "@tensorflow/tfjs": "^4.22.0",
     "aws-amplify": "^6.18.0",
