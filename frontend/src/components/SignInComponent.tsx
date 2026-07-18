@@ -17,8 +17,8 @@ Amplify.configure({
         oauth: {
           domain: 'us-east-1y1sbfcf1r.auth.us-east-1.amazoncognito.com', 
           scopes: ['openid', 'email', 'profile'],
-          redirectSignIn: ['http://localhost:5173/'],
-          redirectSignOut: ['http://localhost:5173/'],
+          redirectSignIn: ['https://main.d1cwi5hq26s827.amplifyapp.com/'],
+          redirectSignOut: ['https://main.d1cwi5hq26s827.amplifyapp.com/'],
           responseType: 'code', // 'code' is highly recommended for security over 'token'
           // prompt: 'select_account'
         }

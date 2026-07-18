@@ -1,4 +1,3 @@
-import React from 'react';
 import { fetchAuthSession } from 'aws-amplify/auth';
 import '@aws-amplify/ui-react/styles.css';
 
