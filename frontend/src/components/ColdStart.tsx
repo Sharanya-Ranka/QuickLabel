@@ -2,7 +2,7 @@ import React, { useMemo, useState } from "react";
 import type { DataRow } from "../types";
 import ColdStartFromRandomItems from "./ColdStartFromRandomItems";
 import ColdStartFromUserItems from "./ColdStartFromUserItems";
-import { InfoTooltip } from "./InfoToolTip";
+import { InfoTooltip } from "./InfoTooltip";
 
 interface ColdStartProps {
   fullDatasetRef: React.RefObject<DataRow[]>;
@@ -74,14 +74,14 @@ export default function ColdStart({
         <ColdStartFromRandomItems
           fullDatasetRef={fullDatasetRef}
           handleAssignLabel={handleAssignLabel}
-          userLabeledDataset={userLabeledDataset}
+          
           classLabels={classLabels}
         />
       ) : (
         /* ColdStartFromUserItems Workspace */
         <ColdStartFromUserItems
           fullDatasetRef={fullDatasetRef}
-          userLabeledDataset={userLabeledDataset}
+          
           classLabels={classLabels}
           handleAssignLabel={handleAssignLabel}
         />

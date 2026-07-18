@@ -14,7 +14,6 @@ interface GatherEmbeddingsArgs {
   rows: DataRow[];
   fullDatasetRef: React.RefObject<DataRow[]>;
   setStreamProgress: React.Dispatch<React.SetStateAction<StreamProgress>>;
-  embeddingStatus: EmbeddingStatus;
   setEmbeddingStatus: React.Dispatch<React.SetStateAction<EmbeddingStatus>>;
 }
 
@@ -26,7 +25,6 @@ export async function gatherServerEmbeddings({
   rows,
   fullDatasetRef,
   setStreamProgress,
-  embeddingStatus,
   setEmbeddingStatus,
 }: GatherEmbeddingsArgs): Promise<void> {
   try {

@@ -3,20 +3,18 @@ import type { DataRow } from "../types";
 
 interface ColdStartFromUserItemsProps {
   fullDatasetRef: React.RefObject<DataRow[]>;
-  userLabeledDataset: DataRow[];
   classLabels: string[];
   handleAssignLabel: (rowId: string, label_index: number) => void;
 }
 
 export default function ColdStartFromUserItems({
   fullDatasetRef,
-  userLabeledDataset,
   classLabels,
   handleAssignLabel,
 }: ColdStartFromUserItemsProps) {
   const [searchQuery, setSearchQuery] = useState<string>("");
     const [filteredSearchItems, setFilteredSearchItems] = useState<DataRow[]>([]);
-    const [numItemsLabeled, setNumItemsLabeled] = useState<number>(0);
+    const [numItemsLabeled, _setNumItemsLabeled] = useState<number>(0);
 
   useEffect(() => {
       const filteredSearchItems = fullDatasetRef.current?.filter((row) => row.text.toLowerCase().includes(searchQuery.toLowerCase())) || [];

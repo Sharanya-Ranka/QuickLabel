@@ -143,43 +143,43 @@ function computeClassWeights(labels: number[], numClasses: number): Record<numbe
 }
 
 
-// --- LOCAL EXECUTION SANDBOX BLOCK ---
-async function runTestScript() {
-  console.log("🚀 Initializing local test run for TrainAndGatherUncertain...");
+// // --- LOCAL EXECUTION SANDBOX BLOCK ---
+// async function runTestScript() {
+//   console.log("🚀 Initializing local test run for TrainAndGatherUncertain...");
 
-  // Helper generator to create synthetic datapoints populated with dummy dimensions
-  const generateMockData = (count: number, isLabeled: boolean): Datapoint[] => {
-    return Array.from({ length: count }, (_, i) => {
-      const features = Array.from({ length: 384 }, () => Math.random() - 0.5);
-      return {
-        id: `mock-uuid-${isLabeled ? 'train' : 'test'}-${i}`,
-        features,
-        label: isLabeled ? Math.floor(Math.random() * 5) : undefined
-      };
-    });
-  };
+//   // Helper generator to create synthetic datapoints populated with dummy dimensions
+//   const generateMockData = (count: number, isLabeled: boolean): Datapoint[] => {
+//     return Array.from({ length: count }, (_, i) => {
+//       const features = Array.from({ length: 384 }, () => Math.random() - 0.5);
+//       return {
+//         id: `mock-uuid-${isLabeled ? 'train' : 'test'}-${i}`,
+//         features,
+//         label: isLabeled ? Math.floor(Math.random() * 5) : undefined
+//       };
+//     });
+//   };
 
-  // Generate 50 labeled items to train on, and 30 items to test for uncertainty rankings
-  const mockTrain = generateMockData(100, true);
-  const mockTest = generateMockData(10000, false);
+//   // Generate 50 labeled items to train on, and 30 items to test for uncertainty rankings
+//   const mockTrain = generateMockData(100, true);
+//   const mockTest = generateMockData(10000, false);
 
-  console.log(`Generated ${mockTrain.length} training items and ${mockTest.length} verification items.`);
+//   console.log(`Generated ${mockTrain.length} training items and ${mockTest.length} verification items.`);
 
-  console.time("⏱️ Pipeline Execution Total Time");
-  const result = await TrainAndGatherUncertain({ trainData: mockTrain, testData: mockTest });
-  console.timeEnd("⏱️ Pipeline Execution Total Time");
+//   console.time("⏱️ Pipeline Execution Total Time");
+//   const result = await TrainAndGatherUncertain({ trainData: mockTrain, testData: mockTest });
+//   console.timeEnd("⏱️ Pipeline Execution Total Time");
 
-  console.log("\n📦 Output Predictions (Sorted by highest uncertainty first):");
-  console.log(`Returned counts: ${result.predictions.length} items extracted.`);
+//   console.log("\n📦 Output Predictions (Sorted by highest uncertainty first):");
+//   console.log(`Returned counts: ${result.predictions.length} items extracted.`);
   
-  // Log out the top 3 items to visually inspect structural attributes
-  result.predictions.slice(0, 3).forEach((pred, index) => {
-    console.log(`\n[Rank ${index + 1}] ID: ${pred.id}`);
-    console.log(` -> Predicted Category Label Index: ${pred.label}`);
-    console.log(` -> Margin Spread Delta: ${pred.margin.toFixed(4)} (Closer to 0 means more uncertain)`);
-    console.log(` -> Softmax Density Spectrum Array: [${pred.probabilities.map(p => p.toFixed(3)).join(', ')}]`);
-  });
-}
+//   // Log out the top 3 items to visually inspect structural attributes
+//   result.predictions.slice(0, 3).forEach((pred, index) => {
+//     console.log(`\n[Rank ${index + 1}] ID: ${pred.id}`);
+//     console.log(` -> Predicted Category Label Index: ${pred.label}`);
+//     console.log(` -> Margin Spread Delta: ${pred.margin.toFixed(4)} (Closer to 0 means more uncertain)`);
+//     console.log(` -> Softmax Density Spectrum Array: [${pred.probabilities.map(p => p.toFixed(3)).join(', ')}]`);
+//   });
+// }
 
-// Trigger script execution
-// runTestScript().catch(err => console.error("❌ Isolated testing script collapsed:", err));
+// // Trigger script execution
+// // runTestScript().catch(err => console.error("❌ Isolated testing script collapsed:", err));

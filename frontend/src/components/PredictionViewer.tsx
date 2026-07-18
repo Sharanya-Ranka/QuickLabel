@@ -2,7 +2,7 @@ import React, { useState, useEffect, } from "react";
 import type { DataRow } from "../types";
 import { PredictionItem } from './PredictionItem';
 import DownloadDatasetButton from './DownloadDatasetButton';
-import { InfoTooltip } from "./InfoToolTip";
+import { InfoTooltip } from "./InfoTooltip";
 
 interface PredictionViewerProps {
   fullDatasetRef: React.RefObject<DataRow[] | null>;

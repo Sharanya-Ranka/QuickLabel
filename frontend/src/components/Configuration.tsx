@@ -2,7 +2,7 @@ import React , { useRef }from "react";
 import Papa from "papaparse";
 import { gatherServerEmbeddings } from "../scripts/gatherServerEmbeddings";
 import type { AppPhase, DataRow, EmbeddingStatus } from "../types";
-import { InfoTooltip } from "./InfoToolTip";
+import { InfoTooltip } from "./InfoTooltip";
 
 interface ConfigurePanelProps {
   fullDatasetRef: React.RefObject<DataRow[]>;
@@ -82,7 +82,6 @@ export default function ConfigurePanel({
           await gatherServerEmbeddings({
             rows: parsed,
             fullDatasetRef,
-            embeddingStatus,
             setEmbeddingStatus,
             setStreamProgress,
           });

@@ -13,7 +13,7 @@ Have a way to refresh the entire thing (if previous file exists - Alert - Do you
 Export model weights in excel file? More sohisticated users could find this useful
 Prevent user from advancing to "Active Learning" until atleast a few examples have received embeddings
 How will this look on a mobile screen (low priority since we expect users to upload csv files)
-? with help for each section
+? with help for each section (DONE)
 Check how the UI looks with the maximum number of classes. (Set a maximum!)
 
 

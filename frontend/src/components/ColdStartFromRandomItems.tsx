@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import type { DataRow } from "../pages/MainPage";
+import type { DataRow } from "../types";
 
 interface ColdStartFromRandomItemsProps {
   fullDatasetRef: React.RefObject<DataRow[]>;
-  userLabeledDataset: DataRow[];
   classLabels: string[];
   handleAssignLabel: (rowId: string, label_index: number) => void;
 }
 
 export default function ColdStartFromRandomItems({
   fullDatasetRef,
-  userLabeledDataset,
   classLabels,
   handleAssignLabel,
 }: ColdStartFromRandomItemsProps) {

@@ -3,8 +3,7 @@ import type { Datapoint } from '../scripts/trainAndGatherUncertain';
 import React, { useState, useEffect } from "react";
 import type { DataRow } from "../types";
 import { PredictionItem } from './PredictionItem';
-import { InfoTooltip } from "./InfoToolTip";
-import { full } from '@huggingface/transformers';
+import { InfoTooltip } from "./InfoTooltip";
 
 interface ActiveLearningProps {
   fullDatasetRef: React.RefObject<DataRow[] | null>;
@@ -13,9 +12,6 @@ interface ActiveLearningProps {
   modelUpdateCount: number;
   setModelUpdateCount:  React.Dispatch<
     React.SetStateAction<number>
-  >;
-  setPhase: React.Dispatch<
-    React.SetStateAction<"CONFIG" | "COLD_START" | "ACTIVE_LEARNING">
   >;
   handleAssignLabel: (rowId: string, label_index: number) => void;
 }
@@ -28,7 +24,6 @@ export default function ActiveLearning({
   classLabels, 
   modelUpdateCount,
   setModelUpdateCount,
-  setPhase, 
   handleAssignLabel 
 }: ActiveLearningProps) {
   

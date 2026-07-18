@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef } from "react";
 // import FileUploadStatus from "../components/FileUploadStatus";
 // import ConfigurationSelector from "../components/ConfigurationSelector";
 import ColdStart from "../components/ColdStart";
@@ -140,7 +140,6 @@ export default function MainPage() {
               classLabels={classLabels}
               modelUpdateCount={modelUpdateCount}
               setModelUpdateCount={setModelUpdateCount}
-              setPhase={setPhase}
               handleAssignLabel={handleAssignLabel}
             />}
           </div>

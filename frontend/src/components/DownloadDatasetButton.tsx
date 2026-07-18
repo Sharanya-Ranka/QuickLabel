@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import ExcelJS from 'exceljs';
 import { saveAs } from 'file-saver';
-import type { DataRow } from '../pages/MainPage';
+import type { DataRow } from '../types';
 
 interface DownloadDatasetButtonProps {
   fullDatasetRef: React.RefObject<DataRow[] | null>;

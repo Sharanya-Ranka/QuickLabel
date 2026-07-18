@@ -1,5 +1,5 @@
 import type { DataRow } from "../types";
-import { InfoTooltip } from "./InfoToolTip";
+import { InfoTooltip } from "./InfoTooltip";
 
 interface UserLabeledDataProps {
   userLabeledDataset: DataRow[];

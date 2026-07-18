@@ -1,10 +1,9 @@
-import type {EmbeddingStatus} from "../pages/MainPage";
+import type {EmbeddingStatus} from "../types";
 
 interface FileUploadProps{
   phase: string;
   handleCSVUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
   embeddingStatus: EmbeddingStatus;
-  setEmbeddingStatus: React.Dispatch<React.SetStateAction<EmbeddingStatus>>;
   streamProgress: { progress: number; total: number };
 }
 
@@ -12,7 +11,6 @@ export default function FileUploadStatus({
   phase,
   handleCSVUpload,
   embeddingStatus,
-  setEmbeddingStatus,
   streamProgress,
 }: FileUploadProps) {
   return (
