@@ -30,8 +30,13 @@ export async function gatherServerEmbeddings({
   try {
     // 1. Grab fresh Cognito tokens using your existing client logic
     const session = await fetchAuthSession();
-    const idToken = session.tokens?.idToken?.toString();
+    const idToken = session.tokens?.idToken?.toString() || "";
     // console.log("idToken", idToken)
+
+    if (!(idToken.trim())){
+      alert(`Authentication Failure: Please sign in.`);
+      throw new Error(`Embedding Request failed due to no Authentication`);
+    }
 
     const embeddingRequest: EmbeddingRequest = {
       items: { items: rows.map((r) => ({ id: r.id, text: r.text })) },
