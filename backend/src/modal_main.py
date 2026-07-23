@@ -1,4 +1,4 @@
-from .modal_build import app, MODEL_NAME, CACHE_DIR, BATCH_SIZE
+from .modal_build import app, MODEL_NAME, CACHE_DIR, BATCH_SIZE, ALLOWED_ORIGINS
 from .modal_helpers import verify_and_update_quota
 import modal
 from pydantic import BaseModel
@@ -108,7 +108,7 @@ class BatchEmbedder:
         # Add CORS directly inside the app creation method
         web_app.add_middleware(
             CORSMiddleware,
-            allow_origins=["*"],
+            allow_origins=ALLOWED_ORIGINS,
             allow_credentials=True,
             allow_methods=["*"],
             allow_headers=["*"],
