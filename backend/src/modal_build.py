@@ -61,19 +61,21 @@ app_image = (
 # Initialize the Modal App
 app = modal.App("quicklabel-backend", image=app_image, volumes={DB_DIR: volume})
 
-# Create the standard FastAPI instance
-web_app = FastAPI()
+# # Create the standard FastAPI instance
+# web_app = FastAPI()
 
-# Allow cross-origin requests
-web_app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],  # Adjust this to match your frontend port if needed
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# # Allow cross-origin requests
+# web_app.add_middleware(
+#     CORSMiddleware,
+#     allow_origins=["*"],  # Adjust this to match your frontend port if needed
+#     allow_credentials=True,
+#     allow_methods=["*"],
+#     allow_headers=["*"],
+# )
 
 BATCH_SIZE = 32
+
+ALLOWED_ORIGINS = ["https://main.d1cwi5hq26s827.amplifyapp.com"]  # Amazon app
 
 
 # AWS Cognito Parameters (Update these with your specific AWS resource IDs)

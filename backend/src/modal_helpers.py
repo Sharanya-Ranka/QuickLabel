@@ -112,6 +112,9 @@ def verify_token(token: str):
                 detail="Token validation failed. Subject field missing.",
             )
 
+        else:
+            return claims
+
     except jwt.ExpiredSignatureError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -138,12 +141,12 @@ def verify_and_update_quota(
 
     # 💡 PRODUCTION TODO: Verify your JWT token using Cognito/Amplify verification certs
     # For this pattern, we infer a simplified sub/user_id for clarity
-    verify_token(token=token)
-    user_id = f"user_{token[:8]}"
+    payload = verify_token(token=token)
+    user_id = payload.get("sub")
 
     # Establish today's tracking stamp (e.g., Resetting strictly at midnight UTC)
     current_tracking_day = datetime.datetime.utcnow().strftime("%Y-%m-%d")
-
+    conn: sqlite3.Connection
     with get_db() as conn:
         cursor = conn.cursor()
 
