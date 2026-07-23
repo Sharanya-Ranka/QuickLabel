@@ -17,8 +17,8 @@ Amplify.configure({
         oauth: {
           domain: 'us-east-1y1sbfcf1r.auth.us-east-1.amazoncognito.com', 
           scopes: ['openid', 'email', 'profile'],
-          redirectSignIn: ['https://main.d1cwi5hq26s827.amplifyapp.com/'],
-          redirectSignOut: ['https://main.d1cwi5hq26s827.amplifyapp.com/'],
+          redirectSignIn: ['https://main.d1cwi5hq26s827.amplifyapp.com/', 'http://localhost:5173/'],
+          redirectSignOut: ['https://main.d1cwi5hq26s827.amplifyapp.com/', 'http://localhost:5173/'],
           responseType: 'code', // 'code' is highly recommended for security over 'token'
           // prompt: 'select_account'
         }
@@ -64,6 +64,8 @@ export default function SignInComponent() {
       await signInWithRedirect({ provider: 'Google' });
     } catch (error) {
       console.error('Failed to initiate Google OAuth redirect:', error);
+      // TODO: Better handling of these errors
+      alert(`Failed to authenticate or User already signed in, Please refresh the page`);
     }
   };
 

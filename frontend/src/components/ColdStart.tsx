@@ -22,7 +22,7 @@ export default function ColdStart({
   handleAssignLabel,
 }: ColdStartProps) {
   const [coldStartMode, setColdStartMode] = useState<"RANDOM" | "SEARCH">(
-    "RANDOM",
+    "SEARCH",
   );
   const isColdStartComplete = useMemo(() => {
     // 1. Create a Set of all unique label indices assigned by the user
@@ -54,36 +54,37 @@ export default function ColdStart({
           side="right"
         />
         <div className="flex bg-slate-100 p-1 rounded-lg text-xs font-medium">
+        <button
+            onClick={() => setColdStartMode("SEARCH")}
+            className={`px-3 py-1.5 rounded-md transition-colors ${coldStartMode === "SEARCH" ? "bg-white shadow-xs text-indigo-600" : "text-slate-500"}`}
+          >
+            User Search
+          </button>
           <button
             onClick={() => setColdStartMode("RANDOM")}
             className={`px-3 py-1.5 rounded-md transition-colors ${coldStartMode === "RANDOM" ? "bg-white shadow-xs text-indigo-600" : "text-slate-500"}`}
           >
             Random Items
           </button>
-          <button
-            onClick={() => setColdStartMode("SEARCH")}
-            className={`px-3 py-1.5 rounded-md transition-colors ${coldStartMode === "SEARCH" ? "bg-white shadow-xs text-indigo-600" : "text-slate-500"}`}
-          >
-            User Search
-          </button>
         </div>
       </div>
 
-      {coldStartMode === "RANDOM" ? (
-        /* ColdStartFromRandomItems Workspace */
-        <ColdStartFromRandomItems
-          fullDatasetRef={fullDatasetRef}
-          handleAssignLabel={handleAssignLabel}
-          
-          classLabels={classLabels}
-        />
-      ) : (
+      {coldStartMode === "SEARCH" ? (
         /* ColdStartFromUserItems Workspace */
         <ColdStartFromUserItems
           fullDatasetRef={fullDatasetRef}
           
           classLabels={classLabels}
           handleAssignLabel={handleAssignLabel}
+        />
+        
+      ) : (
+        /* ColdStartFromRandomItems Workspace */
+        <ColdStartFromRandomItems
+          fullDatasetRef={fullDatasetRef}
+          handleAssignLabel={handleAssignLabel}
+          
+          classLabels={classLabels}
         />
       )}
 

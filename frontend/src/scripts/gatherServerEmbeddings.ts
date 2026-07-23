@@ -97,39 +97,86 @@ export async function gatherServerEmbeddings({
 
     setStreamProgress((prev) => ({ ...prev, total: rows.length }));
 
+    const overallStart = performance.now();
+
+    const metrics = {
+      networkWait: 0,
+      decoding: 0,
+      stringSplitting: 0,
+      jsonParsing: 0,
+      mapCreation: 0,
+      datasetUpdate: 0,
+      chunksProcessed: 0,
+      totalItemsHandled: 0,
+    };
+
     while (true) {
+      const tReadStart = performance.now();
       const { value, done } = await reader.read();
+      metrics.networkWait += performance.now() - tReadStart;
       // console.log("Reading", value, done)
       if (done) break;
 
+      const tDecodeStart = performance.now();
       buffer += decoder.decode(value, { stream: true });
+      metrics.decoding += performance.now() - tDecodeStart;
       // console.log(JSON.stringify(buffer))
+      const tSplitStart = performance.now();
       const lines = buffer.split("\n\n");
       buffer = lines.pop() || "";
       console.log("buffer updated");
+      metrics.stringSplitting += performance.now() - tSplitStart;
 
       for (const line of lines) {
         if (!line.startsWith("data: ")) continue;
         const content = line.replace("data: ", "").trim();
 
+        const tParseStart = performance.now();
         const payload = JSON.parse(content);
-        console.log(payload.results.length);
+        metrics.jsonParsing += performance.now() - tParseStart;
+        
+        const resultsCount = payload.results.length;
+        console.log(resultsCount);
+        metrics.totalItemsHandled += resultsCount;
+        metrics.chunksProcessed++;
+
         setStreamProgress((prev) => ({
           ...prev,
           progress: prev.progress + payload.results.length,
         }));
 
         // Mutate the reference in place without triggering a re-render cascade
+        const tMapStart = performance.now();
         const incomingMap = new Map<string, number[]>(
           payload.results.map((r: any) => [r.id, r.embedding]),
         );
+        metrics.mapCreation += performance.now() - tMapStart;
+
+        const tUpdateStart = performance.now();
         fullDatasetRef.current.forEach((row) => {
           if (incomingMap.has(row.id)) {
             row.embedding = incomingMap.get(row.id);
           }
         });
+        metrics.datasetUpdate += performance.now() - tUpdateStart;
+
       }
     }
+
+    const totalTime = performance.now() - overallStart;
+    console.log("Total time to retrieve embeddings=", totalTime)
+
+    // console.table({
+    //   "Total Execution Time (ms)": totalTime.toFixed(2),
+    //   "Network Stream Waiting (ms)": metrics.networkWait.toFixed(2),
+    //   "Text Decoding (ms)": metrics.decoding.toFixed(2),
+    //   "String Splitting (ms)": metrics.stringSplitting.toFixed(2),
+    //   "JSON Parsing (ms)": metrics.jsonParsing.toFixed(2),
+    //   "Map Creation (ms)": metrics.mapCreation.toFixed(2),
+    //   "Dataset Updates (ms)": metrics.datasetUpdate.toFixed(2),
+    //   "Chunks Processed": metrics.chunksProcessed,
+    //   "Total Items Handled": metrics.totalItemsHandled,
+    // });
   } catch (err) {
     console.error("Embedding server stream error:", err);
     setEmbeddingStatus("IDLE");

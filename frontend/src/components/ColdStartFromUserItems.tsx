@@ -38,14 +38,17 @@ export default function ColdStartFromUserItems({
             key={row.id}
             className="p-1 bg-slate-50 rounded border border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3"
           >
-            <span className="text-xs font-mono text-slate-700 max-w-md truncate">
+            <span title={row.text} className="text-xs font-mono text-slate-700 max-w-md truncate">
               {row.text}
             </span>
             <select
-                  value={row.userLabelIndex}
+                  value={row.userLabelIndex ?? -1}
                   onChange={(e) => handleAssignLabel(row.id, parseInt(e.target.value))}
                   className="text-[11px] border border-slate-200 bg-white rounded px-1.5 py-0.5 font-medium text-slate-600"
                 >
+                  <option value={-1}>
+                    Not labeled
+                  </option>
                   {classLabels.map((l, index) => (
                     <option key={l} value={index}>
                       {l}
